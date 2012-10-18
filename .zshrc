@@ -1,16 +1,43 @@
-export SVN_EDITOR=/usr/bin/vim
-export PATH=/home/tsuji/ViennaRNA/bin:/home/tsuji/ViennaRNA/ViennaRNA/bin:/home/tsuji/.gem/ruby/1.8/bin:/home/tsuji/bin:/home/tsuji/local/bin:/opt/local/bin:/opt/local/sbin/:$PATH
-export PERL5LIB=/home/tsuji/local/lib:/home/tsuji/local/lib/site_lib
-export MANPATH=/opt/local/man:$MANPATH
-export LANG=ja_JP.UTF-8
-export BLASTDB=/usr/local/db/entity/uniprot-blast.1
 
-alias java='/usr/local/package/java/current6/bin/java -cp /home/tsuji/java/allsvn.jar'
-alias emacs='/usr/local/bin/emacs-23.2 -nw'
-alias l='/bin/ls --color=auto'
-alias ls='/bin/ls -laF --color=auto'
-alias ll='/bin/ls -laFt --color=auto'
-export LSCOLORS=exfxcxdxbxegedabagacex
+case "$OSTYPE" in
+# BSD (contains Mac)
+darwin*)
+        export SVN_EDITOR=/Applications/MacVim.app/Contents/MacOS/Vim
+        export PATH=/Users/tsuji/bin:/opt/local/bin:/opt/local/sbin/:$PATH
+        export MANPATH=/opt/local/share/man:/opt/local/man:$MANPATH
+        source $HOME/perl5/perlbrew/etc/bashrc
+        export PERL_CPANM_OPT="--local-lib=~/extlib"
+        export PERL5LIB="$HOME/extlib/lib/perl5:$HOME/extlib/lib/perl5/i386-freebsd-64int:$PERL5LIB"
+        export DATAPATH=/Users/tsuji/Data/RNAstructure/data_tables/
+        export EDITOR=/Applications/MacVim.app/Contents/MacOS/Vim
+        alias vi='env LANG=ja_JP.UTF-8 /Applications/MacVim.app/Contents/MacOS/Vim "$@"'
+        alias vim='env LANG=ja_JP.UTF-8 /Applications/MacVim.app/Contents/MacOS/Vim "$@"'
+
+        alias java='java -cp /Users/tsuji/Dropbox/eclipse/bin/allsvn.jar'
+        alias ls='ls -GwF'
+        alias ll='ls -GwFlat'
+        export LSCOLORS=exfxcxdxbxegedabagacex
+        alias emacs='~/emacs-23.2/nextstep/Emacs.app/Contents/MacOS/Emacs -nw'
+        alias gw='ssh -Y gw.hgc.jp'
+        ;;
+linux*)
+        export SVN_EDITOR=/usr/bin/vim
+        export PATH=/home/tsuji/ViennaRNA/bin:/home/tsuji/ViennaRNA/ViennaRNA/bin:/home/tsuji/.gem/ruby/1.8/bin:/home/tsuji/bin:/home/tsuji/local/bin:/opt/local/bin:/opt/local/sbin/:$PATH
+        export PERL5LIB=/home/tsuji/local/lib:/home/tsuji/local/lib/site_lib
+        export MANPATH=/opt/local/man:$MANPATH
+        export LANG=ja_JP.UTF-8
+        export BLASTDB=/usr/local/db/entity/uniprot-blast.1
+        
+        alias java='/usr/local/package/java/current6/bin/java -cp /home/tsuji/java/allsvn.jar'
+        alias emacs='/usr/local/bin/emacs-23.2 -nw'
+        alias l='/bin/ls --color=auto'
+        alias ls='/bin/ls -laF --color=auto'
+        alias ll='/bin/ls -laFt --color=auto'
+        export LSCOLORS=exfxcxdxbxegedabagacex
+
+        ;;
+esac
+
 
 alias sshmac='ssh 202.175.149.179'
 
@@ -72,7 +99,7 @@ setopt print_eight_bit
 setopt no_flow_control
 
 # ヒストリの設定
-HISTFILE=~/dotfile/.zsh_history
+HISTFILE=~/.zsh_history
 HISTSIZE=100000
 SAVEHIST=100000
 
