@@ -172,4 +172,9 @@ preexec () {
 
 PATH=${PATH}:/opt/local/bin
 
-eval $(perl -I$HOME/perl5/lib/perl5 -Mlocal::lib)
+case "$OSTYPE" in
+linux*)
+        eval $(perl -I$HOME/perl5/lib/perl5 -Mlocal::lib)
+        ;;
+esac
+
