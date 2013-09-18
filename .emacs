@@ -32,8 +32,15 @@
 (setq-default indent-tabs-mode nil)
 (setq indent-line-function 'indent-relative-maybe)
 
+;; scroll bar
+(scroll-bar-mode -1)
+
+;; line numbers
+(require 'linum)
+(global-linum-mode t)
+
 ;;ウインドウ移動
-(define-key global-map "\C-t" 'other-window)
+(define-key global-map "\C-o" 'other-window)
 
 ;;バッファ入れ替え
 ;;F2でカーソルを残したまま

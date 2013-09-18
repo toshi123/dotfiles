@@ -3,43 +3,60 @@ case "$OSTYPE" in
 # BSD (contains Mac)
 darwin*)
         export SVN_EDITOR=/Applications/MacVim.app/Contents/MacOS/Vim
-        export PATH=/Users/tsuji/bin:/opt/local/bin:/opt/local/sbin/:$PATH
+        export PATH=/Users/tsuji/bin:$HOME/perl5/perlbrew/bin:/usr/local/bin:/usr/local/sbin:$PATH
         export MANPATH=/opt/local/share/man:/opt/local/man:$MANPATH
         source $HOME/perl5/perlbrew/etc/bashrc
         export PERL_CPANM_OPT="--local-lib=~/extlib"
         export PERL5LIB="$HOME/extlib/lib/perl5:$HOME/extlib/lib/perl5/i386-freebsd-64int:$PERL5LIB"
         export DATAPATH=/Users/tsuji/Data/RNAstructure/data_tables/
         export EDITOR=/Applications/MacVim.app/Contents/MacOS/Vim
-        alias vi='env LANG=ja_JP.UTF-8 /Applications/MacVim.app/Contents/MacOS/Vim "$@"'
-        alias vim='env LANG=ja_JP.UTF-8 /Applications/MacVim.app/Contents/MacOS/Vim "$@"'
+        alias vi='env LANG=ja_JP.UTF-8 /usr/local/Cellar/macvim/HEAD/MacVim.app/Contents/MacOS/Vim "$@"'
+        alias vim='env LANG=ja_JP.UTF-8 /usr/local/Cellar/macvim/HEAD/MacVim.app/Contents/MacOS/Vim "$@"'
 
         alias java='java -cp /Users/tsuji/Dropbox/eclipse/bin/allsvn.jar'
         alias ls='ls -GwF'
         alias ll='ls -GwFlat'
         export LSCOLORS=exfxcxdxbxegedabagacex
-        alias emacs='~/emacs-23.2/nextstep/Emacs.app/Contents/MacOS/Emacs -nw'
+        alias emacs='/usr/local/bin/emacs -nw'
         alias gw='ssh -Y gw.hgc.jp'
+        alias mmj='ssh -Y 172.17.1.16'
+        alias syk='ssh -Y 172.17.1.12'
+        alias ttn='ssh -Y 172.17.1.13'
+        alias beer='ssh -Y 172.17.1.20'
         ;;
 linux*)
+        source /opt/intel/composerxe/bin/compilervars.sh intel64
+
+        export AMBERHOME=$HOME/local/amber12
+        PATH=$AMBERHOME/bin:$HOME/local/amber12_mpi/bin:$PATH
         export SVN_EDITOR=/usr/bin/vim
-        export PATH=/home/tsuji/ViennaRNA/bin:/home/tsuji/ViennaRNA/ViennaRNA/bin:/home/tsuji/.gem/ruby/1.8/bin:/home/tsuji/bin:/home/tsuji/local/bin:/opt/local/bin:/opt/local/sbin/:$PATH
+        export PATH=$HOME/.gem/ruby/1.8/bin:$HOME/bin:$HOME/local/bin:/opt/local/bin:/opt/local/sbin/:$HOME/local/openmpi/bin:/opt/intel/bin:$HOME/perl5/perlbrew/bin:$PATH
+
         export PERL5LIB=/home/tsuji/local/lib:/home/tsuji/local/lib/site_lib
         export MANPATH=/opt/local/man:$MANPATH
         export LANG=ja_JP.UTF-8
         export BLASTDB=/usr/local/db/entity/uniprot-blast.1
-        
+        export LD_LIBRARY_PATH=/opt/intel/composer_xe_2013.3.163/compiler/lib:$HOME/local/openmpi/lib:$LD_LIBRARY_PATH
+        export PERL5LIB=$HOME/local/lib:$HOME/local/lib/site_lib
+        export MANPATH=/opt/local/man:/opt/intel/composer_xe_2013.3.163/man:$MANPATH
+        export LANG=ja_JP.UTF-8
+        export BLASTDB=/usr/local/db/entity/uniprot-blast.1
+        ulimit -s unlimited # for cafemol
         alias java='/usr/local/package/java/current6/bin/java -cp /home/tsuji/java/allsvn.jar'
-        alias emacs='/usr/local/bin/emacs-23.2 -nw'
+        alias emacs='$HOME/local/bin/emacs-24.3 -nw'
+        alias tmux='env LD_LIBRARY_PATH=/home/tsuji/local/lib ~/local/tmux/bin/tmux'
         alias l='/bin/ls --color=auto'
         alias ls='/bin/ls -laF --color=auto'
         alias ll='/bin/ls -laFt --color=auto'
+        alias mpirun='/home/tsuji/local/openmpi/bin/mpirun'
+        alias lrms='/opt/local/bin/lrms'
+        alias vim='$HOME/local/vim-7.3/bin/vim'
         export LSCOLORS=exfxcxdxbxegedabagacex
-
+        alias mmj='ssh -Y 172.17.1.16'
         ;;
 esac
 
 
-alias sshmac='ssh 202.175.149.179'
 
 setopt prompt_subst
 case "$TERM" in
@@ -178,3 +195,4 @@ linux*)
         ;;
 esac
 
+[[ -s "$HOME/.pythonbrew/etc/bashrc" ]] && source "$HOME/.pythonbrew/etc/bashrc"
