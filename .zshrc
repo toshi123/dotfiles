@@ -50,7 +50,7 @@ linux*)
         ;;
 esac
 
-[ -f ~/dotfiles/.zshrc.local ] && source ~/dotfiles/.zshrc.local
+[ -f ~/Dropbox/dotfiles/.zshrc.local ] && source ~/Dropbox/dotfiles/.zshrc.local
 
 
 setopt prompt_subst
