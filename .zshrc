@@ -18,11 +18,6 @@ darwin*)
         alias ll='ls -GwFlat'
         export LSCOLORS=exfxcxdxbxegedabagacex
         alias emacs='/usr/local/bin/emacs -nw'
-        alias gw='ssh -Y gw.hgc.jp'
-        alias mmj='ssh -Y 172.17.1.16'
-        alias syk='ssh -Y 172.17.1.12'
-        alias ttn='ssh -Y 172.17.1.13'
-        alias beer='ssh -Y 172.17.1.20'
         ;;
 linux*)
         source /opt/intel/composerxe/bin/compilervars.sh intel64
@@ -52,10 +47,10 @@ linux*)
         alias lrms='/opt/local/bin/lrms'
         alias vim='$HOME/local/vim-7.3/bin/vim'
         export LSCOLORS=exfxcxdxbxegedabagacex
-        alias mmj='ssh -Y 172.17.1.16'
         ;;
 esac
 
+[ -f ~/dotfiles/.zshrc.local ] && source ~/dotfiles/.zshrc.local
 
 
 setopt prompt_subst
