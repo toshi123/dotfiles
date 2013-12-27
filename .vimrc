@@ -157,18 +157,18 @@ set noswapfile
 
 "---------------------------------------------------------------------------------
 "表示関係
-set list                " 不可視文字の可視化
+"set list                " 不可視文字の可視化
 set number              " 行番号の表示
 set wrap                " 長いテキストの折り返し
 set textwidth=0         " 自動的に改行が入るのを無効化
-set colorcolumn=120      " その代わり80文字目にラインを入れる
+"set colorcolumn=120      " その代わり80文字目にラインを入れる
 
 " 前時代的スクリーンベルを無効化
 set t_vb=
 set novisualbell
 
 " デフォルト不可視文字は美しくないのでUnicodeで綺麗に
-set listchars=tab:»-,trail:-,extends:»,precedes:«,nbsp:%,eol:↲
+"set listchars=tab:»-,trail:-,extends:»,precedes:«,nbsp:%,eol:↲
 
 "---------------------------------------------------------------------------------
 "ショートカット
@@ -332,55 +332,54 @@ map Y y$
 
 
 "------------------------------------------------------------------------------
-filetype off 
-if has('vim_starting')
-  set runtimepath+=~/.vim/neobundle.vim.git
-  call neobundle#rc(expand('~/.vim/.bundle'))
-endif
-
 let s:noplugin = 0
 let s:bundle_root = expand('~/.vim/bundle')
-let s:neobundle_root = s:bundle_root . '/neobundle.vim'
-if !isdirectory(s:neobundle_root) || v:version < 702
-  " NeoBundleが存在しない、もしくはVimのバージョンが古い場合はプラグインを一切
-  " 読み込まない
-  let s:noplugin = 1
-else
-  " NeoBundleを'runtimepath'に追加し初期化を行う
-  if has('vim_starting')
-    execute "set runtimepath+=" . s:neobundle_root
-  endif
-  call neobundle#rc(s:bundle_root)
-  " NeoBundle自身をNeoBundleで管理させる
-  NeoBundleFetch 'Shougo/neobundle.vim'
-
-  " 非同期通信を可能にする
-  " 'build'が指定されているのでインストール時に自動的に
-  " 指定されたコマンドが実行され vimproc がコンパイルされる
-  NeoBundle "Shougo/vimproc", {
-        \ "build": {
-        \   "windows"   : "make -f make_mingw32.mak",
-        \   "cygwin"    : "make -f make_cygwin.mak",
-        \   "mac"       : "make -f make_mac.mak",
-        \   "unix"      : "make -f make_unix.mak",
-        \ }}
-
-  NeoBundle 'Shougo/neocomplcache'
-  NeoBundle 'Shougo/neobundle.vim'
-  NeoBundle 'Shougo/unite.vim'
-  NeoBundle 'tomtom/tcomment_vim'
-  NeoBundle "thinca/vim-template"
-  NeoBundle 'tpope/vim-surround'
-  NeoBundle 'vim-scripts/Align'
-  NeoBundle 'vim-scripts/YankRing.vim'
-
-  " インストールされていないプラグインのチェックおよびダウンロード
-  NeoBundleCheck
+let s:neobundle_root = expand('~/.vim/bundle/neobundle.vim')
+" NeoBundleを'runtimepath'に追加し初期化を行う
+if has('vim_starting')
+  execute "set runtimepath+=" . s:neobundle_root
 endif
+call neobundle#rc(s:bundle_root)
+" NeoBundle自身をNeoBundleで管理させる
+NeoBundleFetch 'Shougo/neobundle.vim'
+
+" 非同期通信を可能にする
+" 'build'が指定されているのでインストール時に自動的に
+" 指定されたコマンドが実行され vimproc がコンパイルされる
+NeoBundle "Shougo/vimproc", {
+    \ "build": {
+    \   "windows"   : "make -f make_mingw32.mak",
+    \   "cygwin"    : "make -f make_cygwin.mak",
+    \   "mac"       : "make -f make_mac.mak",
+    \   "unix"      : "make -f make_unix.mak",
+    \ }}
+
+NeoBundle 'Shougo/neobundle.vim'
+"NeoBundle 'Shougo/unite.vim'
+NeoBundle 'Shougo/neocomplcache'
+"NeoBundle 'Shougo/vimfiler'
+NeoBundle 'tomtom/tcomment_vim'
+NeoBundle 'thinca/vim-template'
+NeoBundle 'tpope/vim-surround'
+NeoBundle 'vim-scripts/Align'
+NeoBundle 'vim-scripts/YankRing.vim'
+"NeoBundle 'vim-scripts/TaskList.vim'
+"NeoBundle 'mattn/zencoding-vim'
+"NeoBundle 'h1mesuke/unite-outline'
+"NeoBundle 'Shougo/neosnippet.vim'
+"NeoBundle 'honza/vim-snippets'
+"NeoBundle 'davidhalter/jedi-vim'
+"NeoBundle 'sjl/gundo.vim'
+"NeoBundle 'vim-pandoc/vim-pandoc'
+
+
+" インストールされていないプラグインのチェックおよびダウンロード
+NeoBundleCheck
 
 " ファイルタイププラグインおよびインデントを有効化
 " これはNeoBundleによる処理が終了したあとに呼ばなければならない
-filetype plugin indent on
+filetype plugin on
+filetype indent on
 
 " hooks.on_sourceによるロード時設定
 " 次に説明するがInsertモードに入るまではneocompleteはロードされない
@@ -414,6 +413,7 @@ autocmd MyAutoCmd User plugin-template-loaded
     \ | endif
 
 "--------------------------------------------------------------------------
+
 " Unite
 NeoBundleLazy "Shougo/unite.vim", {
   \ "autoload": {
@@ -434,7 +434,10 @@ nnoremap <silent> [unite]c :<C-u>Unite bookmark<CR>
 nnoremap <silent> [unite]o :<C-u>Unite outline<CR>
 nnoremap <silent> [unite]t :<C-u>Unite tab<CR>
 nnoremap <silent> [unite]w :<C-u>Unite window<CR>
+nnoremap <silent> [unite]y :<C-u>Unite history/yank<CR>
 let s:hooks = neobundle#get_hooks("unite.vim")
+let g:unite_source_file_mru_limit = 200
+let g:unite_source_history_yank_enable =1
 
 function! s:hooks.on_source(bundle)
   " start unite in insert mode
@@ -475,7 +478,7 @@ endfunction
 
 "----------------------------------------------------------------------------
 " neocomplete
-if has('lua') && v:version >= 703 && has('patch885')
+if has('lua') && ((v:version >= 703 && has('patch885')) || v:version >= 704 )
   NeoBundleLazy "Shougo/neocomplete.vim", {
     \ "autoload": {
     \   "insert": 1,
