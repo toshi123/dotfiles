@@ -1,98 +1,41 @@
-" URL: http://vim.wikia.com/wiki/Example_vimrc
-" Authors: http://vim.wikia.com/wiki/Vim_on_Freenode
-" Description: A minimal, but feature rich, example .vimrc. If you are a
-"              newbie, basing your first .vimrc on this file is a good choice.
-"              If you're a more advanced user, building your own .vimrc based
-"              on this file is still a good idea.
+" Authors: toshi123
+" Reference:
+" http://vim.wikia.com/wiki/Example_vimrc
+" http://lambdalisue.hatenablog.com/entry/2013/06/23/071344
+" http://d.hatena.ne.jp/itchyny/?of=18
+" http://d.hatena.ne.jp/vimtaku/20121117/1353138802
 
-" release MyAutoCmd http://lambdalisue.hatenablog.com/entry/2013/06/23/071344
 augroup MyAutoCmd
   autocmd!
 augroup END
 
-"------------------------------------------------------------
-" Features {{{1
-"
-" These options and commands enable some very useful features in Vim, that
-" no user should have to live without.
-
-" Set 'nocompatible' to ward off unexpected things that your distro might
-" have made, as well as sanely reset options when re-sourcing .vimrc
 " Vi互換モードをオフ(Vimの拡張機能を有効)
 set nocompatible
-
-" Attempt to determine the type of a file based on its name and possibly its
-" contents.  Use this to allow intelligent auto-indenting for each filetype,
-" and for plugins that are filetype specific.
 " ファイル名と内容によってファイルタイプを判別し、ファイルタイププラグインを有効にする
 filetype indent plugin on
-
-let g:molokai_original = 1
-:colorscheme molokai
-" set t_Co = 256
-syntax on
-
-"------------------------------------------------------------
-" Must have options {{{1
-"
-" These are highly recommended options.
-" 強く推奨するオプション
-
 " テキスト整形オプション,マルチバイト系を追加
 set formatoptions=lmoq
 " Exploreの初期ディレクトリ
 set browsedir=buffer
 " カーソルを行頭、行末で止まらないようにする
 set whichwrap=b,s,h,l,<,>,[,],~
-
-"------------------------------------------------------------
-" Usability options {{{1
-"
-" These are options that users frequently set in their .vimrc. Some of them
-" change Vim's behaviour in ways which deviate from the true Vi way, but
-" which are considered to add usability. Which, if any, of these options to
-" use is very much a personal preference, but they are harmless.
-
-
-" When opening a new line and no filetype-specific indenting is enabled, keep
-" the same indent as the line you're currently on. Useful for READMEs, etc.
 " オートインデント
 set autoindent
-
-" Stop certain movements from always going to the first character of a line.
-" While this behaviour deviates from that of Vi, it does what most users
-" coming from other editors would expect.
 " 移動コマンドを使ったとき、行頭に移動しない
 set nostartofline
-
-" Always display the status line, even if only one window is displayed
 " ステータスラインを常に表示する
 set laststatus=2
 set statusline=%<%F\ %r%h%w%y%{'['.(&fenc!=''?&fenc:&enc).']['.&ff.']'}%=%4v(ASCII=%03.3b,HEX=%02.2B)\ %l/%L(%P)%m
-
-" Instead of failing a command because of unsaved changes, instead raise a
-" dialogue asking if you wish to save changed files.
-" バッファが変更されているとき、コマンドをエラーにするのでなく、保存する
-" かどうか確認を求める
+" バッファが変更されているとき、コマンドをエラーにするのでなく、保存するかどうか確認を求める
 set confirm
-
-" Enable use of the mouse for all modes
 " 全モードでマウスを有効化
 set mouse=a
-
-" Set the command window height to 2 lines, to avoid many cases of having to
-" "press <Enter> to continue"
 " コマンドラインの高さを2行に
 set cmdheight=2
-
-" Quickly time out on keycodes, but never time out on mappings
 " キーコードはすぐにタイムアウト。マッピングはタイムアウトしない
 set notimeout ttimeout ttimeoutlen=200
-
-" Use <F11> to toggle between 'paste' and 'nopaste'
 " <F11>キーで'paste'と'nopaste'を切り替える
 set pastetoggle=<F11>
-
 " その他表示設定
 " 印字不可能文字を16進数で表示
 set display=uhex
@@ -141,42 +84,48 @@ set backspace=indent,eol,start
 " クリップボードをデフォルトのレジスタとして指定。後にYankRingを使うので
 " 'unnamedplus'が存在しているかどうかで設定を分ける必要がある
 if has('unnamedplus')
-  " set clipboard& clipboard+=unnamedplus " 2013-07-03 14:30 unnamed 追加
   set clipboard& clipboard+=unnamedplus,unnamed
 else
-  " set clipboard& clipboard+=unnamed,autoselect 2013-06-24 10:00
   " autoselect 削除
   set clipboard& clipboard+=unnamed
 endif
 
-" Swapファイル?Backupファイル?前時代的すぎ
-" なので全て無効化する
+" Swapファイルなど無効化
 set nowritebackup
 set nobackup
 set noswapfile
 
 "---------------------------------------------------------------------------------
 "表示関係
-"set list                " 不可視文字の可視化
+set list                " 不可視文字の可視化
 set number              " 行番号の表示
 set wrap                " 長いテキストの折り返し
 set textwidth=0         " 自動的に改行が入るのを無効化
 "set colorcolumn=120      " その代わり80文字目にラインを入れる
 
-" 前時代的スクリーンベルを無効化
+" スクリーンベル無効化
 set t_vb=
 set novisualbell
 
 " デフォルト不可視文字は美しくないのでUnicodeで綺麗に
-"set listchars=tab:»-,trail:-,extends:»,precedes:«,nbsp:%,eol:↲
+set listchars=tab:»-,trail:-,extends:»,precedes:«,nbsp:%,eol:↲
 
 "---------------------------------------------------------------------------------
 "ショートカット
+let mapleader = ","
+
+" ,のデフォルトの機能は、\で使えるように退避
+noremap \  ,
+
 " 入力モード中に素早くjjと入力した場合はESCとみなす
 inoremap jj <Esc>
 
 " ノーマルモードで改行を入力
 nnoremap <CR> :<C-u>call append(expand('.'), '')<Cr>j
+nnoremap ; :w<CR>
+
+" YをCやDと同じ挙動に
+map Y y$
 
 " ESCを二回押すことでハイライトを消す
 nmap <silent> <Esc><Esc> :nohlsearch<CR>
@@ -266,23 +215,10 @@ endif
 " Indentation options {{{1
 " インデント関連のオプション {{{1
 "
-" Indentation settings according to personal preference.
-
-" Indentation settings for using 2 spaces instead of tabs.
-" Do not change 'tabstop' from its default value of 8 with this setup.
 " タブ文字の代わりにスペース2個を使う場合の設定。
-" この場合、'tabstop'はデフォルトの8から変えない。
 set shiftwidth=4
 set softtabstop=4
 set expandtab
-
-" Indentation settings for using hard tabs for indent. Display tabs as
-" two characters wide.
-" インデントにハードタブを使う場合の設定。
-" タブ文字を2文字分の幅で表示する。
-"set shiftwidth=2
-"set tabstop=2
-
 
 "-------------------------------------------------------------------------------
 " エンコーディング関連
@@ -314,86 +250,71 @@ if has('iconv')
   unlet s:enc_jis
 endif
 
-"------------------------------------------------------------
-" Mappings {{{1
-" マッピング
-"
-" Useful mappings
-
-" Map Y to act like D and C, i.e. to yank until EOL, rather than act as yy,
-" which is the default
-" Yの動作をDやCと同じにする
-map Y y$
-
-" Map <C-L> (redraw screen) to also turn off search highlighting until the
-" next search
-" <C-L>で検索後の強調表示を解除する
-"nnoremap <C-L> :nohl<CR><C-L>
-
-
 "------------------------------------------------------------------------------
+filetype off
+
 let s:noplugin = 0
-let s:bundle_root = expand('~/.vim/bundle')
-let s:neobundle_root = expand('~/.vim/bundle/neobundle.vim')
-" NeoBundleを'runtimepath'に追加し初期化を行う
-if has('vim_starting')
-  execute "set runtimepath+=" . s:neobundle_root
+let s:bundle_root = expand('~/.vim/.bundle')
+let s:neobundle_root = s:bundle_root . '/neobundle.vim'
+if !isdirectory(s:neobundle_root) || v:version < 702
+  " NeoBundleが存在しない、もしくはVimのバージョンが古い場合はプラグインを一切読み込まない
+  let s:noplugin = 1
+else
+  " NeoBundleを'runtimepath'に追加し初期化を行う
+  if has('vim_starting')
+    execute "set runtimepath+=" . s:neobundle_root
+  endif
+  call neobundle#rc(s:bundle_root)
+  " NeoBundle自身をNeoBundleで管理させる
+  NeoBundleFetch 'Shougo/neobundle.vim'
+
+  " 非同期通信を可能にする
+  " 'build'が指定されているのでインストール時に自動的に
+  " 指定されたコマンドが実行され vimproc がコンパイルされる
+  NeoBundle "Shougo/vimproc", {
+        \ "build": {
+        \   "windows"   : "make -f make_mingw32.mak",
+        \   "cygwin"    : "make -f make_cygwin.mak",
+        \   "mac"       : "make -f make_mac.mak",
+        \   "unix"      : "make -f make_unix.mak",
+        \ }}
+
+  "NeoBundle 'Shougo/neocomplcache'
+  "NeoBundle 'Shougo/neobundle.vim'
+  "NeoBundle 'Shougo/unite.vim'
+  NeoBundle 'tomtom/tcomment_vim'
+  NeoBundle 'thinca/vim-template'
+  NeoBundle 'tpope/vim-surround'
+  NeoBundle 'vim-scripts/Align'
+  NeoBundle 'vim-scripts/YankRing.vim'
+  "NeoBundle 'alpaca-tc/alpaca_powertabline'
+  "NeoBundle 'Lokaltog/powerline', { 'rtp' : 'powerline/bindings/vim'}
+  "NeoBundle 'Shougo/vimfiler'
+  NeoBundle 'itchyny/lightline.vim'
+  NeoBundle 'thinca/vim-quickrun'
+  NeoBundle 'Shougo/neomru.vim'
+
+  "-- colorscheme
+  NeoBundle 'itchyny/landscape.vim'
+  NeoBundle 'ujihisa/unite-colorscheme'
+  NeoBundle 'nanotech/jellybeans.vim'
+  NeoBundle 'tomasr/molokai'
+
+  " インストールされていないプラグインのチェックおよびダウンロード
+  NeoBundleCheck
 endif
-call neobundle#rc(s:bundle_root)
-" NeoBundle自身をNeoBundleで管理させる
-NeoBundleFetch 'Shougo/neobundle.vim'
-
-" 非同期通信を可能にする
-" 'build'が指定されているのでインストール時に自動的に
-" 指定されたコマンドが実行され vimproc がコンパイルされる
-NeoBundle "Shougo/vimproc", {
-    \ "build": {
-    \   "windows"   : "make -f make_mingw32.mak",
-    \   "cygwin"    : "make -f make_cygwin.mak",
-    \   "mac"       : "make -f make_mac.mak",
-    \   "unix"      : "make -f make_unix.mak",
-    \ }}
-
-NeoBundle 'Shougo/neobundle.vim'
-"NeoBundle 'Shougo/unite.vim'
-NeoBundle 'Shougo/neocomplcache'
-"NeoBundle 'Shougo/vimfiler'
-NeoBundle 'tomtom/tcomment_vim'
-NeoBundle 'thinca/vim-template'
-NeoBundle 'tpope/vim-surround'
-NeoBundle 'vim-scripts/Align'
-NeoBundle 'vim-scripts/YankRing.vim'
-"NeoBundle 'vim-scripts/TaskList.vim'
-"NeoBundle 'mattn/zencoding-vim'
-"NeoBundle 'h1mesuke/unite-outline'
-"NeoBundle 'Shougo/neosnippet.vim'
-"NeoBundle 'honza/vim-snippets'
-"NeoBundle 'davidhalter/jedi-vim'
-"NeoBundle 'sjl/gundo.vim'
-"NeoBundle 'vim-pandoc/vim-pandoc'
-
-
-" インストールされていないプラグインのチェックおよびダウンロード
-NeoBundleCheck
 
 " ファイルタイププラグインおよびインデントを有効化
 " これはNeoBundleによる処理が終了したあとに呼ばなければならない
-filetype plugin on
-filetype indent on
+filetype plugin indent on
 
-" hooks.on_sourceによるロード時設定
-" 次に説明するがInsertモードに入るまではneocompleteはロードされない
-NeoBundleLazy 'Shougo/neocomplete.vim', {
-  \ "autoload": {"insert": 1}}
-NeoBundleLazy "Shougo/vimfiler", {
-  \ "depends": ["Shougo/unite.vim"],
-  \ "autoload": {
-  \   "commands": ["VimFilerTab", "VimFiler", "VimFilerExplorer"],
-  \   "mappings": ['<Plug>(vimfiler_switch)'],
-  \   "explorer": 1,
-  \ }}
+"-------------------------------------------------------------------------
+" ColorScheme
+:colorscheme molokai
+syntax on
+"-------------------------------------------------------------------------
 
-" '<Plug>TaskList'というマッピングが呼ばれるまでロードしない
+
 NeoBundleLazy 'vim-scripts/TaskList.vim', {"autoload": {"mappings": ['<Plug>TaskList']}}
 " HTMLが開かれるまでロードしない
 NeoBundleLazy 'mattn/zencoding-vim', {"autoload": {"filetypes": ['html']}}
@@ -413,7 +334,6 @@ autocmd MyAutoCmd User plugin-template-loaded
     \ | endif
 
 "--------------------------------------------------------------------------
-
 " Unite
 NeoBundleLazy "Shougo/unite.vim", {
   \ "autoload": {
@@ -423,9 +343,10 @@ NeoBundleLazy 'h1mesuke/unite-outline', {
   \ "autoload": {
   \   "unite_sources": ["outline"],
   \ }}
+"NeoBundleLazy 'Shougo/neomru.vim'
 
 nnoremap [unite] <Nop>
-nmap U [unite]
+nmap <Space>u [unite]
 nnoremap <silent> [unite]f :<C-u>UniteWithBufferDir -buffer-name=files file<CR>
 nnoremap <silent> [unite]b :<C-u>Unite buffer<CR>
 nnoremap <silent> [unite]r :<C-u>Unite register<CR>
@@ -434,10 +355,8 @@ nnoremap <silent> [unite]c :<C-u>Unite bookmark<CR>
 nnoremap <silent> [unite]o :<C-u>Unite outline<CR>
 nnoremap <silent> [unite]t :<C-u>Unite tab<CR>
 nnoremap <silent> [unite]w :<C-u>Unite window<CR>
-nnoremap <silent> [unite]y :<C-u>Unite history/yank<CR>
+nnoremap <silent> [unite]u :<C-u>Unite buffer file_mru file<CR>
 let s:hooks = neobundle#get_hooks("unite.vim")
-let g:unite_source_file_mru_limit = 200
-let g:unite_source_history_yank_enable =1
 
 function! s:hooks.on_source(bundle)
   " start unite in insert mode
@@ -456,14 +375,25 @@ function! s:hooks.on_source(bundle)
 endfunction
 
 "------------------------------------------------------------------------------
-" Tree
-nnoremap <Leader>e :VimFilerExplorer<CR>
+NeoBundleLazy "Shougo/vimfiler", {
+  \ "depends": ["Shougo/unite.vim"],
+  \ "autoload": {
+  \   "commands": ["VimFilerTab", "VimFiler", "VimFilerExplorer"],
+  \   "mappings": ['<Plug>(vimfiler_switch)'],
+  \   "explorer": 1,
+  \ }}
+nnoremap <Space>e :VimFilerExplorer<CR>
+
 " close vimfiler automatically when there are only vimfiler open
 autocmd MyAutoCmd BufEnter * if (winnr('$') == 1 && &filetype ==# 'vimfiler') | q | endif
 let s:hooks = neobundle#get_hooks("vimfiler")
 function! s:hooks.on_source(bundle)
   let g:vimfiler_as_default_explorer = 1
   let g:vimfiler_enable_auto_cd = 1
+  
+  " .から始まるファイルおよび.pycで終わるファイルを不可視パターンに
+  let g:vimfiler_ignore_pattern = "\%(^\..*\|\.pyc$\)"
+
   " vimfiler specific key mappings
   autocmd MyAutoCmd FileType vimfiler call s:vimfiler_settings()
   function! s:vimfiler_settings()
@@ -472,7 +402,7 @@ function! s:hooks.on_source(bundle)
     " use R to refresh
     nmap <buffer> R <Plug>(vimfiler_redraw_screen)
     " overwrite C-l
-    "nmap <buffer> <C-l> <C-w>l
+    nmap <buffer> <C-l> <C-w>l
   endfunction
 endfunction
 
@@ -489,7 +419,7 @@ if has('lua') && ((v:version >= 703 && has('patch885')) || v:version >= 704 )
    let g:acp_enableAtStartup = 0
    let g:neocomplet#enable_smart_case = 1
   endfunction
-  else
+else
     NeoBundleLazy "Shougo/neocomplcache.vim", {
       \ "autoload": {
       \   "insert": 1,
@@ -540,14 +470,13 @@ function! s:hooks.on_source(bundle)
   IndentGuidesEnable " 2013-06-24 10:00 追記
 endfunction
 
-
 "--------------------------------------------------------------------------
 " Undo拡張
 NeoBundleLazy "sjl/gundo.vim", {
   \ "autoload": {
   \   "commands": ['GundoToggle'],
   \}}
-nnoremap <Leader>g :GundoToggle<CR>
+nnoremap <Space>g :GundoToggle<CR>
 
 "----------------------------------------------------------------------------
 " Python関連
@@ -592,8 +521,89 @@ NeoBundleLazy "vim-pandoc/vim-pandoc", {
       \ }}
 
 
+"--------------------------------------------------------------------------
+" lightline.vim
+"let g:lightline = {
+"      \ 'colorscheme': 'wombat',
+"      \ 'component': {
+"      \   'readonly': '%{&readonly?"\u2b64":""}',
+"      \ },
+"      \ 'separator': { 'left': "\u2b80", 'right': "\u2b82" },
+"      \ 'subseparator': { 'left': "\u2b81", 'right': "\u2b83" },
+"      \ }
+"
+"" カラー設定
+"set t_Co=256
 
 
+let g:lightline = {
+        \ 'colorscheme': 'wombat',
+        \ 'mode_map': {'c': 'NORMAL'},
+        \ 'active': {
+        \   'left': [ [ 'mode', 'paste' ], [ 'fugitive', 'filename' ] ]
+        \ },
+        \ 'component_function': {
+        \   'modified': 'MyModified',
+        \   'readonly': 'MyReadonly',
+        \   'fugitive': 'MyFugitive',
+        \   'filename': 'MyFilename',
+        \   'fileformat': 'MyFileformat',
+        \   'filetype': 'MyFiletype',
+        \   'fileencoding': 'MyFileencoding',
+        \   'mode': 'MyMode'
+        \ }
+        \ }
 
+function! MyModified()
+  return &ft =~ 'help\|vimfiler\|gundo' ? '' : &modified ? '+' : &modifiable ? '' : '-'
+endfunction
+
+function! MyReadonly()
+  return &ft !~? 'help\|vimfiler\|gundo' && &readonly ? 'x' : ''
+endfunction
+
+function! MyFilename()
+  return ('' != MyReadonly() ? MyReadonly() . ' ' : '') .
+        \ (&ft == 'vimfiler' ? vimfiler#get_status_string() :
+        \  &ft == 'unite' ? unite#get_status_string() :
+        \  &ft == 'vimshell' ? vimshell#get_status_string() :
+        \ '' != expand('%:t') ? expand('%:t') : '[No Name]') .
+        \ ('' != MyModified() ? ' ' . MyModified() : '')
+endfunction
+
+function! MyFugitive()
+  try
+    if &ft !~? 'vimfiler\|gundo' && exists('*fugitive#head')
+      return fugitive#head()
+    endif
+  catch
+  endtry
+  return ''
+endfunction
+
+function! MyFileformat()
+  return winwidth(0) > 70 ? &fileformat : ''
+endfunction
+
+function! MyFiletype()
+  return winwidth(0) > 70 ? (strlen(&filetype) ? &filetype : 'no ft') : ''
+endfunction
+
+function! MyFileencoding()
+  return winwidth(0) > 70 ? (strlen(&fenc) ? &fenc : &enc) : ''
+endfunction
+
+function! MyMode()
+  return winwidth(0) > 60 ? lightline#mode() : ''
+endfunction
+"--------------------------------------------------------------------------
+" vim-quickrun
+
+let g:quickrun_config = {
+\   "_" : {
+\       "runner" : "vimproc",
+\       "runner/vimproc/updatetime" : 60
+\   },
+\}
 
 

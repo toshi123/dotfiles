@@ -66,7 +66,7 @@ hi Operator        guifg=#F92672
 
 " complete menu
 hi Pmenu           guifg=#66D9EF guibg=#000000
-hi PmenuSel                      guibg=#808080
+hi PmenuSel                      guibg=#080808
 hi PmenuSbar                     guibg=#080808
 hi PmenuThumb      guifg=#66D9EF
 
@@ -208,4 +208,29 @@ if &t_Co > 255
    hi CursorColumn                ctermbg=234
    hi LineNr          ctermfg=250 ctermbg=234
    hi NonText         ctermfg=250 ctermbg=234
+
+
+
+   " for vimshell, vimfiler, unite.vim
+   highlight default link Command Function
+   highlight default link GitCommand Constant
+   highlight default link Arguments Type
+   highlight default link PdfHtml Function
+   highlight default link Archive Special
+   highlight default link Image Type
+   highlight default link Multimedia SpecialComment
+   highlight default link System Comment
+   highlight default link Text Constant
+   highlight default link Link Constant
+   highlight default link Exe Statement
+   highlight default link Prompt PreCondit
+   highlight default link Icon LineNr
+   highlight Time ctermfg=141 ctermbg=none gui=none guifg=#af87ff
+   highlight Date ctermfg=140 ctermbg=none gui=none guifg=#af87df
+   highlight default link DateToday Special
+   highlight default link DateWeek Identifier
+   highlight default link DateOld Comment
+   highlight default link Path Preproc
+   highlight default link Marked StorageClass
+   highlight default link Title Identifier
 end
