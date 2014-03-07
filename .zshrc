@@ -10,8 +10,6 @@ darwin*)
         export PERL5LIB="$HOME/extlib/lib/perl5:$HOME/extlib/lib/perl5/i386-freebsd-64int:$PERL5LIB"
         export DATAPATH=/Users/tsuji/Data/RNAstructure/data_tables/
         export EDITOR=/Applications/MacVim.app/Contents/MacOS/Vim
-        alias vi='env LANG=ja_JP.UTF-8 /usr/local/Cellar/macvim/HEAD/MacVim.app/Contents/MacOS/Vim "$@"'
-        alias vim='env LANG=ja_JP.UTF-8 /usr/local/Cellar/macvim/HEAD/MacVim.app/Contents/MacOS/Vim "$@"'
 
         alias java='java -cp /Users/tsuji/Dropbox/eclipse/bin/allsvn.jar'
         alias ls='ls -GwF'
