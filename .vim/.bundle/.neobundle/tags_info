@@ -8,6 +8,8 @@ neobundle.vim
 neomru.vim
 tcomment_vim
 unite-colorscheme
+vim-fugitive
+vim-gitgutter
 vim-quickrun
 vim-surround
 vim-template
