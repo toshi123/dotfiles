@@ -419,7 +419,15 @@ if has('lua') && ((v:version >= 703 && has('patch885')) || v:version >= 704 )
   let s:hooks = neobundle#get_hooks("neocomplete.vim")
   function! s:hooks.on_source(bundle)
    let g:acp_enableAtStartup = 0
-   let g:neocomplet#enable_smart_case = 1
+   let g:neocomplete#enable_smart_case = 1
+   " From
+   " https://github.com/ujiro99/dotfiles/blob/master/.vimrc.completion.neocomplcache
+   " 補完が自動で開始される文字数
+   let g:neocomplete#auto_completion_start_length = 3
+   " 補完候補の一番先頭を選択状態にする(AutoComplPopと似た動作)
+   let g:neocomplete#enable_auto_select = 1
+   " ポップアップメニューで表示される候補の数。初期値は100
+   let g:neocomplete#max_list = 50
   endfunction
 else
     NeoBundleLazy "Shougo/neocomplcache.vim", {
@@ -504,15 +512,27 @@ NeoBundleLazy "davidhalter/jedi-vim", {
       \ }}
 let s:hooks = neobundle#get_hooks("jedi-vim")
 function! s:hooks.on_source(bundle)
-  " jediにvimの設定を任せると'completeopt+=preview'するので
-  " 自動設定機能をOFFにし手動で設定を行う
-  let g:jedi#auto_vim_configuration = 0
-  " 補完の最初の項目が選択された状態だと使いにくいためオフにする
-  let g:jedi#popup_select_first = 0
-  " quickrunと被るため大文字に変更
-  let g:jedi#rename_command = '<Leader>R'
-  " gundoと被るため大文字に変更 (2013-06-24 10:00 追記)
-  let g:jedi#goto_assignments_command = '<Leader>G'
+    " autocmd FileType python setlocal omnifunc=jedi#completions
+    " jediにvimの設定を任せると'completeopt+=preview'するので
+    " 自動設定機能をOFFにし手動で設定を行う
+    " let g:jedi#auto_vim_configuration = 0
+    " let g:jedi#completions_enabled = 0
+    " 補完の最初の項目が選択された状態だと使いにくいためオフにする <- 書いても書かなくても同じ
+    " let g:jedi#popup_select_first = 0
+    " quickrunと被るため大文字に変更
+    let g:jedi#rename_command = '<Leader>R'
+    " gundoと被るため大文字に変更 (2013-06-24 10:00 追記)
+    let g:jedi#goto_assignments_command = '<Leader>G'
+    " let g:neocomplete#force_omni_input_patterns.python = '\%([^. \t]\.\|^\s*@\|^\s*from\s.\+import \|^\s*from \|^\s*import \)\w*'
+
+    autocmd FileType python setlocal omnifunc=jedi#completions
+    autocmd FileType python setlocal completeopt-=preview
+    let g:jedi#auto_vim_configuration = 0
+    let g:jedi#completions_enabled = 0
+    if !exists('g:neocomplete#force_omni_input_patterns')
+            let g:neocomplete#force_omni_input_patterns = {}
+    endif
+    let g:neocomplete#force_omni_input_patterns.python = '\%([^. \t]\.\|^\s*@\|^\s*from\s.\+import \|^\s*from \|^\s*import \)\w*'
 endfunction
 
 "--------------------------------------------------------------------------

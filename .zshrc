@@ -2,23 +2,18 @@
 case "$OSTYPE" in
 # BSD (contains Mac)
 darwin*)
-        export SVN_EDITOR=/Applications/MacVim.app/Contents/MacOS/Vim
         export PATH=/Users/tsuji/bin:$HOME/perl5/perlbrew/bin:/usr/local/bin:/usr/local/sbin:$PATH
         export MANPATH=/opt/local/share/man:/opt/local/man:$MANPATH
         source $HOME/perl5/perlbrew/etc/bashrc
         export PERL_CPANM_OPT="--local-lib=~/extlib"
         export PERL5LIB="$HOME/extlib/lib/perl5:$HOME/extlib/lib/perl5/i386-freebsd-64int:$PERL5LIB"
         export DATAPATH=/Users/tsuji/Data/RNAstructure/data_tables/
-        export EDITOR=/Applications/MacVim.app/Contents/MacOS/Vim
 
-        alias java='java -cp /Users/tsuji/Dropbox/eclipse/bin/allsvn.jar'
         alias ls='ls -GwF'
         alias ll='ls -GwFlat'
         export LSCOLORS=exfxcxdxbxegedabagacex
-        alias emacs='/usr/local/bin/emacs -nw'
         ;;
 linux*)
-        source /opt/intel/composerxe/bin/compilervars.sh intel64
 
         export AMBERHOME=$HOME/local/amber12
         PATH=$AMBERHOME/bin:$HOME/local/amber12_mpi/bin:$PATH
@@ -28,22 +23,10 @@ linux*)
         export PERL5LIB=/home/tsuji/local/lib:/home/tsuji/local/lib/site_lib
         export MANPATH=/opt/local/man:$MANPATH
         export LANG=ja_JP.UTF-8
-        export BLASTDB=/usr/local/db/entity/uniprot-blast.1
-        export LD_LIBRARY_PATH=/opt/intel/composer_xe_2013.3.163/compiler/lib:$HOME/local/openmpi/lib:$LD_LIBRARY_PATH
-        export PERL5LIB=$HOME/local/lib:$HOME/local/lib/site_lib
-        export MANPATH=/opt/local/man:/opt/intel/composer_xe_2013.3.163/man:$MANPATH
-        export LANG=ja_JP.UTF-8
-        export BLASTDB=/usr/local/db/entity/uniprot-blast.1
         ulimit -s unlimited # for cafemol
-        alias java='/usr/local/package/java/current6/bin/java -cp /home/tsuji/java/allsvn.jar'
-        alias emacs='$HOME/local/bin/emacs-24.3 -nw'
-        alias tmux='env LD_LIBRARY_PATH=/home/tsuji/local/lib ~/local/tmux/bin/tmux'
         alias l='/bin/ls --color=auto'
         alias ls='/bin/ls -laF --color=auto'
         alias ll='/bin/ls -laFt --color=auto'
-        alias mpirun='/home/tsuji/local/openmpi/bin/mpirun'
-        alias lrms='/opt/local/bin/lrms'
-        alias vim='$HOME/local/vim-7.3/bin/vim'
         export LSCOLORS=exfxcxdxbxegedabagacex
         ;;
 esac
@@ -65,7 +48,7 @@ esac
 
 
 # http://d.hatena.ne.jp/mollifier/20090414/1239634907
-# あたりを見て適当に設定。
+# あたりを見て設定。
 
 # 補完強化
 autoload -U compinit
@@ -76,16 +59,6 @@ compinit
 setopt auto_pushd
 # 重複したディレクトリを追加しない
 setopt pushd_ignore_dups
-# ^で､cd ..
-#function cdup() {
-#  echo
-#  cd ..
-#  zle reset-prompt
-#}
-#zle -N cdup
-#bindkey '\^' cdup
-# cd をしたときにlsを実行する
-#function chpwd() { ll }
 
 # グローバルエイリアスで | (パイプ)いらず
 alias -g L='| less'
@@ -96,8 +69,6 @@ alias -g W='| wc -l'
 alias -g H30='| head -n 30'
 
 # キーバインドの選択
-# export EDITOR=vim とかしていると
-# 勝手にvi風になるので、明示的に指定する
 bindkey -e   # emacs風
 # bindkey -v # vi風
 
@@ -182,10 +153,10 @@ preexec () {
 
 PATH=${PATH}:/opt/local/bin
 
-case "$OSTYPE" in
-linux*)
-        eval $(perl -I$HOME/perl5/lib/perl5 -Mlocal::lib)
-        ;;
-esac
-
+# case "$OSTYPE" in
+# linux*)
+#         eval $(perl -I$HOME/perl5/lib/perl5 -Mlocal::lib)
+#         ;;
+# esac
+#
 [[ -s "$HOME/.pythonbrew/etc/bashrc" ]] && source "$HOME/.pythonbrew/etc/bashrc"
