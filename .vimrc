@@ -255,7 +255,7 @@ endif
 filetype off
 
 let s:noplugin = 0
-let s:bundle_root = expand('~/.vim/.bundle')
+let s:bundle_root = expand('~/.vim/bundle')
 let s:neobundle_root = s:bundle_root . '/neobundle.vim'
 if !isdirectory(s:neobundle_root) || v:version < 702
   " NeoBundleが存在しない、もしくはVimのバージョンが古い場合はプラグインを一切読み込まない
@@ -268,7 +268,6 @@ else
   call neobundle#begin(s:bundle_root)
   " NeoBundle自身をNeoBundleで管理させる
   NeoBundleFetch 'Shougo/neobundle.vim'
-  call neobundle#end()
 
   " 非同期通信を可能にする
   " 'build'が指定されているのでインストール時に自動的に
@@ -298,6 +297,7 @@ else
   NeoBundle 'tpope/vim-fugitive'
   NeoBundle 'airblade/vim-gitgutter'
   NeoBundle 'Shougo/neosnippet-snippets'
+  NeoBundle "nathanaelkane/vim-indent-guides"
 
   "-- colorscheme
   NeoBundle 'itchyny/landscape.vim'
@@ -308,6 +308,8 @@ else
 
   " インストールされていないプラグインのチェックおよびダウンロード
   NeoBundleCheck
+  call neobundle#end()
+
 endif
 
 
@@ -478,7 +480,6 @@ endfunction
 
 "---------------------------------------------------------------------------
 " インデント可視化
-NeoBundle "nathanaelkane/vim-indent-guides"
 let s:hooks = neobundle#get_hooks("vim-indent-guides")
 function! s:hooks.on_source(bundle)
   let g:indent_guides_guide_size = 1
