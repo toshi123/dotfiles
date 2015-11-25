@@ -6,6 +6,7 @@ lightline.vim
 molokai
 neobundle.vim
 neomru.vim
+neosnippet-snippets
 tcomment_vim
 unite-colorscheme
 vim-fugitive

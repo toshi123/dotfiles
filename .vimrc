@@ -42,7 +42,7 @@ set display=uhex
 
 " 全角スペースをハイライト 
 if has("syntax")
-  syntax on
+"  syntax on
   function! ActivateInvisibleIndicator()
 "    syntax match InvisibleJISX0208Space " " display containedin=ALL
 "    highlight InvisibleJISX0208Space term=underline ctermbg=Cyan guibg=Cyan
@@ -83,12 +83,13 @@ set backspace=indent,eol,start
 
 " クリップボードをデフォルトのレジスタとして指定。後にYankRingを使うので
 " 'unnamedplus'が存在しているかどうかで設定を分ける必要がある
-if has('unnamedplus')
-  set clipboard& clipboard+=unnamedplus,unnamed
-else
-  " autoselect 削除
-  set clipboard& clipboard+=unnamed
-endif
+" if has('unnamedplus')
+"   set clipboard& clipboard+=unnamedplus,unnamed
+" else
+"   " autoselect 削除
+"   set clipboard& clipboard+=unnamed
+" endif
+" let g:yankring_manual_clipboard_check = 0
 
 " Swapファイルなど無効化
 set nowritebackup
@@ -264,9 +265,10 @@ else
   if has('vim_starting')
     execute "set runtimepath+=" . s:neobundle_root
   endif
-  call neobundle#rc(s:bundle_root)
+  call neobundle#begin(s:bundle_root)
   " NeoBundle自身をNeoBundleで管理させる
   NeoBundleFetch 'Shougo/neobundle.vim'
+  call neobundle#end()
 
   " 非同期通信を可能にする
   " 'build'が指定されているのでインストール時に自動的に
@@ -295,6 +297,7 @@ else
   NeoBundle 'Shougo/neomru.vim'
   NeoBundle 'tpope/vim-fugitive'
   NeoBundle 'airblade/vim-gitgutter'
+  NeoBundle 'Shougo/neosnippet-snippets'
 
   "-- colorscheme
   NeoBundle 'itchyny/landscape.vim'
@@ -302,9 +305,11 @@ else
   NeoBundle 'nanotech/jellybeans.vim'
   NeoBundle 'tomasr/molokai'
 
+
   " インストールされていないプラグインのチェックおよびダウンロード
   NeoBundleCheck
 endif
+
 
 " ファイルタイププラグインおよびインデントを有効化
 " これはNeoBundleによる処理が終了したあとに呼ばなければならない
@@ -319,7 +324,7 @@ syntax on
 
 NeoBundleLazy 'vim-scripts/TaskList.vim', {"autoload": {"mappings": ['<Plug>TaskList']}}
 " HTMLが開かれるまでロードしない
-NeoBundleLazy 'mattn/zencoding-vim', {"autoload": {"filetypes": ['html']}}
+NeoBundleLazy 'mattn/emmet-vim', {"autoload": {"filetypes": ['html']}}
 
 "--------------------------------------------------------------------------
 "template

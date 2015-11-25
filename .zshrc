@@ -12,6 +12,7 @@ darwin*)
         alias ls='ls -GwF'
         alias ll='ls -GwFlat'
         export LSCOLORS=exfxcxdxbxegedabagacex
+        source ~/.zsh.local
         ;;
 linux*)
 
@@ -125,10 +126,21 @@ setopt interactive_comments
 # 単語として扱う文字に / を含めない。 ^W で / の前までのディレクトリ1つ分削除できる
 WORDCHARS='*?_-.[]~=&;!#$%^(){}<>'
 
-# ^]で1つ前のコマンドの最後の単語を挿入できる 
+# ^]で1つ前のコマンドの最後の単語を挿入できる
 autoload smart-insert-last-word
 zle -N insert-last-word smart-insert-last-word
 bindkey '^]' insert-last-word
+
+# cdr
+autoload -Uz add-zsh-hock
+autoload -Uz chpwd_recent_dirs cdr add-zsh-hook
+
+# antigen
+if [[ -f $HOME/.zsh/antigen/antigen.zsh ]]; then
+    source $HOME/.zsh/antigen/antigen.zsh
+    antigen bundle mollifier/anyframe
+    antigen apply
+fi
 
 # 文末で^dするとlist-expand (ワイルドカードをリストで展開)
 # それ以外だとdelete
@@ -160,3 +172,43 @@ PATH=${PATH}:/opt/local/bin
 # esac
 #
 [[ -s "$HOME/.pythonbrew/etc/bashrc" ]] && source "$HOME/.pythonbrew/etc/bashrc"
+
+
+# Insert the following environments and aliases into your .cshrc file
+
+# Note: Edit the strings @@_procheck_program_directory_@@ and
+#       @@_aqua_program_directory_@@ below to point to the
+#       directories containing the procheck and aqua executables
+#       and associated data and parameter files.
+
+
+# PROCHECK environments and aliases
+# ---------------------------------
+prodir='/Users/tsuji/Dropbox/work/mgpcm_modeling/procheck'
+export prodir
+alias procheck=$prodir'/procheck.scr'
+alias procheck_comp=$prodir'/procheck_comp.scr'
+alias procheck_nmr=$prodir'/procheck_nmr.scr'
+alias proplot=$prodir'/proplot.scr'
+alias proplot_comp=$prodir'/proplot_comp.scr'
+alias proplot_nmr=$prodir'/proplot_nmr.scr'
+alias aquapro=$prodir'/aquapro.scr'
+alias gfac2pdb=$prodir'/gfac2pdb.scr'
+alias viol2pdb=$prodir'/viol2pdb.scr'
+alias wirplot=$prodir'/wirplot.scr'
+
+# AQUA environment and aliases (for use with PROCHECK-NMR)
+# --------------------------------------------------------
+# Aliases are initialised by typing 'aqua'
+#
+
+if [ -z "$aquaroot" ]; then
+   aquaroot='/Users/tsuji/Dropbox/work/mgpcm_modeling/aqua3.2'
+   export aquaroot
+fi
+
+alias aqua='source $aquaroot/aqsetupi'  # This needs a SH equivalent !!!
+
+# for virtualenvs
+export WORKON_HOME=$HOME/.virtualenvs
+source /usr/local/bin/virtualenvwrapper.sh
