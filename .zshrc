@@ -68,6 +68,14 @@ alias -g H='| head -n 50'
 alias -g T='| tail'
 alias -g W='| wc -l'
 alias -g H30='| head -n 30'
+alias -g P='| peco'
+
+
+if [ -x "`which peco`" ]; then
+  alias lll='ls -la | peco'
+  alias tp='top | peco'
+  alias pp='ps aux | peco'
+fi
 
 # キーバインドの選択
 bindkey -e   # emacs風
@@ -155,22 +163,7 @@ function _delete-char-or-list-expand() {
 zle -N _delete-char-or-list-expand
 bindkey '^D' _delete-char-or-list-expand
 
-# screenでウインドウの名前にコマンドを反映させるための仕掛け
-preexec () {
-    if [ $TERM = "screen" ]; then
-        1="$1 " # deprecated.
-        echo -ne "\ek${${(s: :)1}[0]}\e\\"
-    fi
-  }
 
-PATH=${PATH}:/opt/local/bin
-
-# case "$OSTYPE" in
-# linux*)
-#         eval $(perl -I$HOME/perl5/lib/perl5 -Mlocal::lib)
-#         ;;
-# esac
-#
 [[ -s "$HOME/.pythonbrew/etc/bashrc" ]] && source "$HOME/.pythonbrew/etc/bashrc"
 
 
@@ -210,5 +203,7 @@ fi
 alias aqua='source $aquaroot/aqsetupi'  # This needs a SH equivalent !!!
 
 # for virtualenvs
-export WORKON_HOME=$HOME/.virtualenvs
-source /usr/local/bin/virtualenvwrapper.sh
+if [[ -f '/usr/local/bin/virtualenvwrapper.sh' ]]; then
+    export WORKON_HOME=$HOME/.virtualenvs
+    source /usr/local/bin/virtualenvwrapper.sh
+fi
