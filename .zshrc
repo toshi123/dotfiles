@@ -2,12 +2,8 @@
 case "$OSTYPE" in
 # BSD (contains Mac)
 darwin*)
-        export PATH=/Users/tsuji/bin:$HOME/perl5/perlbrew/bin:/usr/local/bin:/usr/local/sbin:$PATH
+        export PATH=/Users/tsuji/bin:/Users/tsuji/local/bin:/usr/local/bin:/usr/local/sbin:$PATH
         export MANPATH=/opt/local/share/man:/opt/local/man:$MANPATH
-        source $HOME/perl5/perlbrew/etc/bashrc
-        export PERL_CPANM_OPT="--local-lib=~/extlib"
-        export PERL5LIB="$HOME/extlib/lib/perl5:$HOME/extlib/lib/perl5/i386-freebsd-64int:$PERL5LIB"
-        export DATAPATH=/Users/tsuji/Data/RNAstructure/data_tables/
 
         alias ls='ls -GwF'
         alias ll='ls -GwFlat'
@@ -15,7 +11,6 @@ darwin*)
         source ~/.zsh.local
         ;;
 linux*)
-
         export AMBERHOME=$HOME/local/amber12
         PATH=$AMBERHOME/bin:$HOME/local/amber12_mpi/bin:$PATH
         export SVN_EDITOR=/usr/bin/vim
@@ -202,8 +197,5 @@ fi
 
 alias aqua='source $aquaroot/aqsetupi'  # This needs a SH equivalent !!!
 
-# for virtualenvs
-if [[ -f '/usr/local/bin/virtualenvwrapper.sh' ]]; then
-    export WORKON_HOME=$HOME/.virtualenvs
-    source /usr/local/bin/virtualenvwrapper.sh
-fi
+if which pyenv > /dev/null; then eval "$(pyenv init -)"; fi
+
