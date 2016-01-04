@@ -72,7 +72,7 @@ alias -g P='| peco'
 
 
 if [ -x "`which peco`" ]; then
-  alias lll='ls -la | peco'
+  alias lll='ls -laFt | peco'
   alias tp='top | peco'
   alias pp='ps aux | peco'
 fi
