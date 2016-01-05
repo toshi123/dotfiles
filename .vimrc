@@ -287,7 +287,8 @@ else
   NeoBundle 'thinca/vim-template'
   NeoBundle 'tpope/vim-surround'
   NeoBundle 'vim-scripts/Align'
-  NeoBundle 'vim-scripts/YankRing.vim'
+  " NeoBundle 'vim-scripts/YankRing.vim'
+  NeoBundle 'LeafCage/yankround.vim'
   "NeoBundle 'alpaca-tc/alpaca_powertabline'
   "NeoBundle 'Lokaltog/powerline', { 'rtp' : 'powerline/bindings/vim'}
   "NeoBundle 'Shougo/vimfiler'
@@ -343,6 +344,18 @@ autocmd MyAutoCmd User plugin-template-loaded
     \ | endif
 
 "--------------------------------------------------------------------------
+" yankround
+nmap p <Plug>(yankround-p)
+nmap P <Plug>(yankround-P)
+nmap gp <Plug>(yankround-gp)
+nmap gP <Plug>(yankround-gP)
+nmap <C-p> <Plug>(yankround-prev)
+nmap <C-n> <Plug>(yankround-next)
+let g:yankround_max_history = 50
+let g:yankround_dir = '~/.cache/yankround'
+
+
+"--------------------------------------------------------------------------
 " Unite
 NeoBundleLazy "Shougo/unite.vim", {
   \ "autoload": {
@@ -365,6 +378,7 @@ nnoremap <silent> [unite]o :<C-u>Unite outline<CR>
 nnoremap <silent> [unite]t :<C-u>Unite tab<CR>
 nnoremap <silent> [unite]w :<C-u>Unite window<CR>
 nnoremap <silent> [unite]u :<C-u>Unite buffer file_mru file<CR>
+nnoremap <silent> [unite]y :<C-u>Unite yankround<CR>
 let s:hooks = neobundle#get_hooks("unite.vim")
 
 function! s:hooks.on_source(bundle)
@@ -488,11 +502,11 @@ endfunction
 
 "--------------------------------------------------------------------------
 " Undo拡張
-NeoBundleLazy "sjl/gundo.vim", {
-  \ "autoload": {
-  \   "commands": ['GundoToggle'],
-  \}}
-nnoremap <Space>g :GundoToggle<CR>
+" NeoBundleLazy "sjl/gundo.vim", {
+"   \ "autoload": {
+"   \   "commands": ['GundoToggle'],
+"   \}}
+" nnoremap <Space>g :GundoToggle<CR>
 
 "----------------------------------------------------------------------------
 " Python関連
