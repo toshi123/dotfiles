@@ -1,3 +1,4 @@
+[ -z "$PS1" ] && return
 # Path to your oh-my-zsh installation.
 export ZSH=/Users/tsuji/.oh-my-zsh
 
