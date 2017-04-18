@@ -252,82 +252,222 @@ if has('iconv')
 endif
 
 "------------------------------------------------------------------------------
-filetype off
+" filetype off
+" 
+" let s:noplugin = 0
+" let s:bundle_root = expand('~/.vim/bundle')
+" let s:neobundle_root = s:bundle_root . '/neobundle.vim'
+" if !isdirectory(s:neobundle_root) || v:version < 702
+"   " NeoBundleが存在しない、もしくはVimのバージョンが古い場合はプラグインを一切読み込まない
+"   let s:noplugin = 1
+" else
+"   " NeoBundleを'runtimepath'に追加し初期化を行う
+"   if has('vim_starting')
+"     execute "set runtimepath+=" . s:neobundle_root
+"   endif
+"   call neobundle#begin(s:bundle_root)
+"   " NeoBundle自身をNeoBundleで管理させる
+"   NeoBundleFetch 'Shougo/neobundle.vim'
+" 
+"   " 非同期通信を可能にする
+"   " 'build'が指定されているのでインストール時に自動的に
+"   " 指定されたコマンドが実行され vimproc がコンパイルされる
+"   NeoBundle "Shougo/vimproc", {
+"         \ "build": {
+"         \   "windows"   : "make -f make_mingw32.mak",
+"         \   "cygwin"    : "make -f make_cygwin.mak",
+"         \   "mac"       : "make -f make_mac.mak",
+"         \   "unix"      : "make -f make_unix.mak",
+"         \ }}
+" 
+"   "NeoBundle 'Shougo/neocomplcache'
+"   "NeoBundle 'Shougo/neobundle.vim'
+"   "NeoBundle 'Shougo/unite.vim'
+"   NeoBundle 'tomtom/tcomment_vim'
+"   NeoBundle 'thinca/vim-template'
+"   NeoBundle 'tpope/vim-surround'
+"   NeoBundle 'vim-scripts/Align'
+"   " NeoBundle 'vim-scripts/YankRing.vim'
+"   NeoBundle 'LeafCage/yankround.vim'
+"   "NeoBundle 'alpaca-tc/alpaca_powertabline'
+"   "NeoBundle 'Lokaltog/powerline', { 'rtp' : 'powerline/bindings/vim'}
+"   "NeoBundle 'Shougo/vimfiler'
+"   NeoBundle 'itchyny/lightline.vim'
+"   NeoBundle 'thinca/vim-quickrun'
+"   NeoBundle 'Shougo/neomru.vim'
+"   NeoBundle 'tpope/vim-fugitive'
+"   NeoBundle 'airblade/vim-gitgutter'
+"   NeoBundle 'Shougo/neosnippet-snippets'
+"   NeoBundle "nathanaelkane/vim-indent-guides"
+" 
+"   "-- colorscheme
+"   NeoBundle 'itchyny/landscape.vim'
+"   NeoBundle 'ujihisa/unite-colorscheme'
+"   NeoBundle 'nanotech/jellybeans.vim'
+"   NeoBundle 'tomasr/molokai'
+" 
+" 
+"   " インストールされていないプラグインのチェックおよびダウンロード
+"   NeoBundleCheck
+"   call neobundle#end()
+" 
+" endif
+" 
+" 
+" " ファイルタイププラグインおよびインデントを有効化
+" " これはNeoBundleによる処理が終了したあとに呼ばなければならない
+" filetype plugin indent on
+" 
 
-let s:noplugin = 0
-let s:bundle_root = expand('~/.vim/bundle')
-let s:neobundle_root = s:bundle_root . '/neobundle.vim'
-if !isdirectory(s:neobundle_root) || v:version < 702
-  " NeoBundleが存在しない、もしくはVimのバージョンが古い場合はプラグインを一切読み込まない
-  let s:noplugin = 1
-else
-  " NeoBundleを'runtimepath'に追加し初期化を行う
-  if has('vim_starting')
-    execute "set runtimepath+=" . s:neobundle_root
-  endif
-  call neobundle#begin(s:bundle_root)
-  " NeoBundle自身をNeoBundleで管理させる
-  NeoBundleFetch 'Shougo/neobundle.vim'
+"------------------------------------------------------------------------
+" dein.vim
 
-  " 非同期通信を可能にする
-  " 'build'が指定されているのでインストール時に自動的に
-  " 指定されたコマンドが実行され vimproc がコンパイルされる
-  NeoBundle "Shougo/vimproc", {
-        \ "build": {
-        \   "windows"   : "make -f make_mingw32.mak",
-        \   "cygwin"    : "make -f make_cygwin.mak",
-        \   "mac"       : "make -f make_mac.mak",
-        \   "unix"      : "make -f make_unix.mak",
-        \ }}
+" Flags
+let s:use_dein = 1
 
-  "NeoBundle 'Shougo/neocomplcache'
-  "NeoBundle 'Shougo/neobundle.vim'
-  "NeoBundle 'Shougo/unite.vim'
-  NeoBundle 'tomtom/tcomment_vim'
-  NeoBundle 'thinca/vim-template'
-  NeoBundle 'tpope/vim-surround'
-  NeoBundle 'vim-scripts/Align'
-  " NeoBundle 'vim-scripts/YankRing.vim'
-  NeoBundle 'LeafCage/yankround.vim'
-  "NeoBundle 'alpaca-tc/alpaca_powertabline'
-  "NeoBundle 'Lokaltog/powerline', { 'rtp' : 'powerline/bindings/vim'}
-  "NeoBundle 'Shougo/vimfiler'
-  NeoBundle 'itchyny/lightline.vim'
-  NeoBundle 'thinca/vim-quickrun'
-  NeoBundle 'Shougo/neomru.vim'
-  NeoBundle 'tpope/vim-fugitive'
-  NeoBundle 'airblade/vim-gitgutter'
-  NeoBundle 'Shougo/neosnippet-snippets'
-  NeoBundle "nathanaelkane/vim-indent-guides"
-
-  "-- colorscheme
-  NeoBundle 'itchyny/landscape.vim'
-  NeoBundle 'ujihisa/unite-colorscheme'
-  NeoBundle 'nanotech/jellybeans.vim'
-  NeoBundle 'tomasr/molokai'
-
-
-  " インストールされていないプラグインのチェックおよびダウンロード
-  NeoBundleCheck
-  call neobundle#end()
-
+" vi compatibility
+if !&compatible
+  set nocompatible
 endif
 
+" Prepare .vim dir
+let s:vimdir = $HOME . "/.vim"
+if has("vim_starting")
+  if ! isdirectory(s:vimdir)
+    call system("mkdir " . s:vimdir)
+  endif
+endif
 
-" ファイルタイププラグインおよびインデントを有効化
-" これはNeoBundleによる処理が終了したあとに呼ばなければならない
-filetype plugin indent on
+" dein
+let s:dein_enabled  = 0
+if s:use_dein && v:version >= 704
+  let s:dein_enabled = 1
+    let s:dein_dir = expand('~/.vim/dein')
+    let s:dein_repo_dir = s:dein_dir . '/repos/github.com/Shougo/dein.vim'
 
+    if &compatible
+    set nocompatible
+    endif
+
+    if !isdirectory(s:dein_repo_dir)
+    execute '!git clone git@github.com:Shougo/dein.vim.git' s:dein_repo_dir
+    endif
+
+    execute 'set runtimepath^=' . s:dein_repo_dir
+
+    call dein#begin(s:dein_dir)
+
+    call dein#add('Shougo/dein.vim')
+
+    call dein#add('Shougo/vimproc', {
+            \ 'build': {
+            \     'windows': 'tools\\update-dll-mingw',
+            \     'cygwin': 'make -f make_cygwin.mak',
+            \     'mac': 'make -f make_mac.mak',
+            \     'linux': 'make',
+            \     'unix': 'gmake'}})
+
+    call dein#add('Shougo/unite.vim', {
+            \ 'depends': ['vimproc'],
+            \ 'on_cmd': ['Unite'],
+            \ 'lazy': 1})
+
+    if has('lua')
+    call dein#add('Shougo/neocomplete.vim', {
+                \ 'on_i': 1,
+                \ 'lazy': 1})
+    endif
+
+    call dein#add('Shougo/vimfiler', {
+    \ "depends": ["Shougo/unite.vim"],
+    \ "lazy": 1}
+    \ )
+    nnoremap <Space>e :VimFilerExplorer<CR>
+
+
+    call dein#add('Shougo/neocomplcache')
+    call dein#add('tomtom/tcomment_vim')
+    call dein#add('thinca/vim-template')
+    call dein#add('tpope/vim-surround')
+    call dein#add('vim-scripts/Align')
+    call dein#add('vim-scripts/YankRing.vim')
+    call dein#add('LeafCage/yankround.vim')
+    call dein#add('alpaca-tc/alpaca_powertabline')
+    call dein#add('itchyny/lightline.vim')
+    call dein#add('thinca/vim-quickrun')
+    call dein#add('Shougo/neomru.vim')
+    call dein#add('tpope/vim-fugitive')
+    call dein#add('airblade/vim-gitgutter')
+    call dein#add('Shougo/neosnippet-snippets')
+    call dein#add('nathanaelkane/vim-indent-guides')
+    call dein#add('itchyny/landscape.vim')
+    call dein#add('ujihisa/unite-colorscheme')
+    call dein#add('nanotech/jellybeans.vim')
+    call dein#add('tomasr/molokai')
+
+
+    set rtp+=/Users/tsuji/Library/Python/3.4/lib/python/site-packages/powerline/bindings/vim
+    call dein#add('powerline/powerline', { 'rtp' : 'powerline/bindings/vim'})
+
+    call dein#end()
+
+    if dein#check_install()
+    call dein#install()
+    endif
+    if s:dein_enabled && dein#tap("unite.vim")
+        nnoremap [unite] <Nop>
+            nmap <Space>u [unite]
+            nnoremap <silent> [unite]f :<C-u>UniteWithBufferDir -buffer-name=files file<CR>
+            nnoremap <silent> [unite]b :<C-u>Unite buffer<CR>
+            nnoremap <silent> [unite]r :<C-u>Unite register<CR>
+            nnoremap <silent> [unite]m :<C-u>Unite file_mru<CR>
+            nnoremap <silent> [unite]c :<C-u>Unite bookmark<CR>
+            nnoremap <silent> [unite]o :<C-u>Unite outline<CR>
+            nnoremap <silent> [unite]t :<C-u>Unite tab<CR>
+            nnoremap <silent> [unite]w :<C-u>Unite window<CR>
+            nnoremap <silent> [unite]u :<C-u>Unite buffer file_mru file<CR>
+            nnoremap <silent> [unite]y :<C-u>Unite yankround<CR>
+        endif
+
+        " start unite in insert mode
+        let g:unite_enable_start_insert = 1
+        " 大文字小文字を区別しない
+        let g:unite_enable_ignore_case = 1
+        let g:unite_enable_smart_case = 1
+        
+        " use vimfiler to open directory
+        " call unite#custom_default_action("source/bookmark/directory", "vimfiler")
+        " call unite#custom_default_action("directory", "vimfiler")
+        " call unite#custom_default_action("directory_mru", "vimfiler")
+        autocmd MyAutoCmd FileType unite call s:unite_settings()
+        function! s:unite_settings()
+            imap <buffer> <Esc><Esc> <Plug>(unite_exit)
+            nmap <buffer> <Esc> <Plug>(unite_exit)
+            nmap <buffer> <C-n> <Plug>(unite_select_next_line)
+            nmap <buffer> <C-p> <Plug>(unite_select_previous_line)
+        endfunction
+
+        " grep検索
+        nnoremap <silent> ,g  :<C-u>Unite grep:. -buffer-name=search-buffer<CR>
+        " ディレクトリを指定してgrep検索
+        nnoremap <silent> ,dg  :<C-u>Unite grep -buffer-name=search-buffer<CR>
+        " カーソル位置の単語をgrep検索
+        nnoremap <silent> ,cg :<C-u>Unite grep:. -buffer-name=search-buffer<CR><C-R><C-W><CR>
+        " grep検索結果の再呼出
+        nnoremap <silent> ,r  :<C-u>UniteResume search-buffer<CR>
+        " unite grep に ag(The Silver Searcher) を使う
+        if executable('ag')
+            let g:unite_source_grep_command = 'ag'
+            let g:unite_source_grep_default_opts = '--nogroup --nocolor --column'
+            let g:unite_source_grep_recursive_opt = ''
+        endif
+    "-------------------------------------------------------------------------
+endif
 "-------------------------------------------------------------------------
 " ColorScheme
 :colorscheme molokai
 syntax on
 "-------------------------------------------------------------------------
-
-
-NeoBundleLazy 'vim-scripts/TaskList.vim', {"autoload": {"mappings": ['<Plug>TaskList']}}
-" HTMLが開かれるまでロードしない
-NeoBundleLazy 'mattn/emmet-vim', {"autoload": {"filetypes": ['html']}}
 
 "--------------------------------------------------------------------------
 "template
@@ -354,63 +494,13 @@ nmap <C-n> <Plug>(yankround-next)
 let g:yankround_max_history = 50
 let g:yankround_dir = '~/.cache/yankround'
 
-
-"--------------------------------------------------------------------------
-" Unite
-NeoBundleLazy "Shougo/unite.vim", {
-  \ "autoload": {
-  \   "commands": ["Unite", "UniteWithBufferDir"]
-  \ }}
-NeoBundleLazy 'h1mesuke/unite-outline', {
-  \ "autoload": {
-  \   "unite_sources": ["outline"],
-  \ }}
-"NeoBundleLazy 'Shougo/neomru.vim'
-
-nnoremap [unite] <Nop>
-nmap <Space>u [unite]
-nnoremap <silent> [unite]f :<C-u>UniteWithBufferDir -buffer-name=files file<CR>
-nnoremap <silent> [unite]b :<C-u>Unite buffer<CR>
-nnoremap <silent> [unite]r :<C-u>Unite register<CR>
-nnoremap <silent> [unite]m :<C-u>Unite file_mru<CR>
-nnoremap <silent> [unite]c :<C-u>Unite bookmark<CR>
-nnoremap <silent> [unite]o :<C-u>Unite outline<CR>
-nnoremap <silent> [unite]t :<C-u>Unite tab<CR>
-nnoremap <silent> [unite]w :<C-u>Unite window<CR>
-nnoremap <silent> [unite]u :<C-u>Unite buffer file_mru file<CR>
-nnoremap <silent> [unite]y :<C-u>Unite yankround<CR>
-let s:hooks = neobundle#get_hooks("unite.vim")
-
-function! s:hooks.on_source(bundle)
-  " start unite in insert mode
-  let g:unite_enable_start_insert = 1
-  " use vimfiler to open directory
-  call unite#custom_default_action("source/bookmark/directory", "vimfiler")
-  call unite#custom_default_action("directory", "vimfiler")
-  call unite#custom_default_action("directory_mru", "vimfiler")
-  autocmd MyAutoCmd FileType unite call s:unite_settings()
-  function! s:unite_settings()
-    imap <buffer> <Esc><Esc> <Plug>(unite_exit)
-    nmap <buffer> <Esc> <Plug>(unite_exit)
-    nmap <buffer> <C-n> <Plug>(unite_select_next_line)
-    nmap <buffer> <C-p> <Plug>(unite_select_previous_line)
-  endfunction
-endfunction
-
-"------------------------------------------------------------------------------
-NeoBundleLazy "Shougo/vimfiler", {
-  \ "depends": ["Shougo/unite.vim"],
-  \ "autoload": {
-  \   "commands": ["VimFilerTab", "VimFiler", "VimFilerExplorer"],
-  \   "mappings": ['<Plug>(vimfiler_switch)'],
-  \   "explorer": 1,
-  \ }}
-nnoremap <Space>e :VimFilerExplorer<CR>
+ "------------------------------------------------------------------------------
 
 " close vimfiler automatically when there are only vimfiler open
-autocmd MyAutoCmd BufEnter * if (winnr('$') == 1 && &filetype ==# 'vimfiler') | q | endif
-let s:hooks = neobundle#get_hooks("vimfiler")
-function! s:hooks.on_source(bundle)
+if dein#is_sourced('vimfiler')
+    autocmd MyAutoCmd BufEnter * if (winnr('$') == 1 && &filetype ==# 'vimfiler') | q | endif
+" let s:hooks = neobundle#get_hooks("vimfiler")
+" function! s:hooks.on_source(bundle)
   let g:vimfiler_as_default_explorer = 1
   let g:vimfiler_enable_auto_cd = 1
   
@@ -427,111 +517,134 @@ function! s:hooks.on_source(bundle)
     " overwrite C-l
     nmap <buffer> <C-l> <C-w>l
   endfunction
-endfunction
-
+" endfunction
+endif
 "----------------------------------------------------------------------------
 " neocomplete
-if has('lua') && ((v:version >= 703 && has('patch885')) || v:version >= 704 )
-  NeoBundleLazy "Shougo/neocomplete.vim", {
-    \ "autoload": {
-    \   "insert": 1,
-    \ }}
-  let g:neocomplete#enable_at_startup = 1
-  let s:hooks = neobundle#get_hooks("neocomplete.vim")
-  function! s:hooks.on_source(bundle)
-   let g:acp_enableAtStartup = 0
-   let g:neocomplete#enable_smart_case = 1
-   " From
-   " https://github.com/ujiro99/dotfiles/blob/master/.vimrc.completion.neocomplcache
-   " 補完が自動で開始される文字数
-   let g:neocomplete#auto_completion_start_length = 3
-   " 補完候補の一番先頭を選択状態にする(AutoComplPopと似た動作)
-   let g:neocomplete#enable_auto_select = 1
-   " ポップアップメニューで表示される候補の数。初期値は100
-   let g:neocomplete#max_list = 50
-  endfunction
-else
-    NeoBundleLazy "Shougo/neocomplcache.vim", {
-      \ "autoload": {
-      \   "insert": 1,
-      \ }}
-  let g:neocomplcache_enable_at_startup = 1
-  let s:hooks = neobundle#get_hooks("neocomplcache.vim")
-  function! s:hooks.on_source(bundle)
-    let g:acp_enableAtStartup = 0
-    let g:neocomplcache_enable_smart_case = 1
-  endfunction
+" if dein#is_sourced('neocomplete.vim')
+let g:acp_enableAtStartup = 0
+let g:neocomplete#enable_at_startup = 1
+let g:neocomplete#enable_smart_case = 1
+" From
+" https://github.com/ujiro99/dotfiles/blob/master/.vimrc.completion.neocomplcache
+" 補完が自動で開始される文字数
+let g:neocomplete#sources#syntax#min_keyword_length = 3
+let g:neocomplete#auto_completion_start_length = 3
+
+
+let g:neocomplete#sources#dictionary#dictionaries = {
+    \ 'default' : '',
+    \ 'vimshell' : $HOME.'/.vimshell_hist',
+    \ 'scheme' : $HOME.'/.gosh_completions'
+    \ }
+
+" Define keyword.
+if !exists('g:neocomplete#keyword_patterns')
+    let g:neocomplete#keyword_patterns = {}
 endif
+let g:neocomplete#keyword_patterns['default'] = '\h\w*'
+
+" Plugin key-mappings.
+inoremap <expr><C-g>     neocomplete#undo_completion()
+inoremap <expr><C-l>     neocomplete#complete_common_string()
+
+" Recommended key-mappings.
+" <CR>: close popup and save indent.
+inoremap <silent> <CR> <C-r>=<SID>my_cr_function()<CR>
+function! s:my_cr_function()
+  return (pumvisible() ? "\<C-y>" : "" ) . "\<CR>"
+  " For no inserting <CR> key.
+  "return pumvisible() ? "\<C-y>" : "\<CR>"
+endfunction
+" <TAB>: completion.
+inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
+" <C-h>, <BS>: close popup and delete backword char.
+inoremap <expr><C-h> neocomplete#smart_close_popup()."\<C-h>"
+inoremap <expr><BS> neocomplete#smart_close_popup()."\<C-h>"
+" Close popup by <Space>.
+"inoremap <expr><Space> pumvisible() ? "\<C-y>" : "\<Space>"
+
+" AutoComplPop like behavior.
+let g:neocomplete#enable_auto_select = 1
+
+" Shell like behavior(not recommended).
+"set completeopt+=longest
+"let g:neocomplete#enable_auto_select = 1
+"let g:neocomplete#disable_auto_complete = 1
+"inoremap <expr><TAB>  pumvisible() ? "\<Down>" : "\<C-x>\<C-u>"
+
+" Enable omni completion.
+autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
+autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
+autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
+autocmd FileType python setlocal omnifunc=pythoncomplete#Complete
+autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
+
+" Enable heavy omni completion.
+if !exists('g:neocomplete#sources#omni#input_patterns')
+  let g:neocomplete#sources#omni#input_patterns = {}
+endif
+"let g:neocomplete#sources#omni#input_patterns.php = '[^. \t]->\h\w*\|\h\w*::'
+"let g:neocomplete#sources#omni#input_patterns.c = '[^.[:digit:] *\t]\%(\.\|->\)'
+"let g:neocomplete#sources#omni#input_patterns.cpp = '[^.[:digit:] *\t]\%(\.\|->\)\|\h\w*::'
+
+" For perlomni.vim setting.
+" https://github.com/c9s/perlomni.vim
+let g:neocomplete#sources#omni#input_patterns.perl = '\h\w*->\h\w*\|\h\w*::'
+
+
+" ポップアップメニューで表示される候補の数。初期値は100
+let g:neocomplete#max_list = 30
+" endfunction
+" endif
 
 "-----------------------------------------------------------------------------
 " neosunippet
-NeoBundleLazy "Shougo/neosnippet.vim", {
-      \ "depends": ["honza/vim-snippets"],
-      \ "autoload": {
-      \   "insert": 1,
-      \ }}
-let s:hooks = neobundle#get_hooks("neosnippet.vim")
-function! s:hooks.on_source(bundle)
-  imap <C-k>     <Plug>(neosnippet_expand_or_jump)
-  smap <C-k>     <Plug>(neosnippet_expand_or_jump)
-  xmap <C-k>     <Plug>(neosnippet_expand_target)
-  " SuperTab like snippets behavior.
-  imap <expr><TAB> neosnippet#expandable_or_jumpable() ?
-    \ "\<Plug>(neosnippet_expand_or_jump)"
-    \: pumvisible() ? "\<C-n>" : "\<TAB>"
-  smap <expr><TAB> neosnippet#expandable_or_jumpable() ?
-    \ "\<Plug>(neosnippet_expand_or_jump)"
-    \: "\<TAB>"
-  " For snippet_complete marker.
-  if has('conceal')
-    set conceallevel=2 concealcursor=i
-  endif
-  " Enable snipMate compatibility feature.
-  let g:neosnippet#enable_snipmate_compatibility = 1
-  " Tell Neosnippet about the other snippets
-  let g:neosnippet#snippets_directory=s:bundle_root . '/vim-snippets/snippets'
-endfunction
-
+if dein#is_sourced('neosnippets')
+    " let s:hooks = neobundle#get_hooks("neosnippet.vim")
+    function! s:hooks.on_source(bundle)
+        imap <C-k>     <Plug>(neosnippet_expand_or_jump)
+        smap <C-k>     <Plug>(neosnippet_expand_or_jump)
+        xmap <C-k>     <Plug>(neosnippet_expand_target)
+        " SuperTab like snippets behavior.
+        imap <expr><TAB> neosnippet#expandable_or_jumpable() ?
+            \ "\<Plug>(neosnippet_expand_or_jump)"
+            \: pumvisible() ? "\<C-n>" : "\<TAB>"
+        smap <expr><TAB> neosnippet#expandable_or_jumpable() ?
+            \ "\<Plug>(neosnippet_expand_or_jump)"
+            \: "\<TAB>"
+        " For snippet_complete marker.
+        if has('conceal')
+            set conceallevel=2 concealcursor=i
+        endif
+        " Enable snipMate compatibility feature.
+        let g:neosnippet#enable_snipmate_compatibility = 1
+        " Tell Neosnippet about the other snippets
+        let g:neosnippet#snippets_directory=s:bundle_root . '/vim-snippets/snippets'
+    endfunction
+endif
 "---------------------------------------------------------------------------
 " インデント可視化
-let s:hooks = neobundle#get_hooks("vim-indent-guides")
-function! s:hooks.on_source(bundle)
-  let g:indent_guides_guide_size = 1
-  IndentGuidesEnable " 2013-06-24 10:00 追記
-endfunction
-
-"--------------------------------------------------------------------------
-" Undo拡張
-" NeoBundleLazy "sjl/gundo.vim", {
-"   \ "autoload": {
-"   \   "commands": ['GundoToggle'],
-"   \}}
-" nnoremap <Space>g :GundoToggle<CR>
+if dein#is_sourced('neosnippets')
+    " let s:hooks = neobundmle#get_hooks("vim-indent-guides")
+    " function! s:hooks.on_source(bundle)
+    let g:indent_guides_guide_size = 1
+    IndentGuidesEnable " 2013-06-24 10:00 追記
+    " endfunction
+endif
 
 "----------------------------------------------------------------------------
 " Python関連
 " Djangoを正しくVimで読み込めるようにする
-NeoBundleLazy "lambdalisue/vim-django-support", {
-      \ "autoload": {
-      \   "filetypes": ["python", "python3", "djangohtml"]
-      \ }}
+call dein#add("lambdalisue/vim-django-support", {'lazy':1,'on_ft':["python", "python3", "djangohtml"]})
 " Vimで正しくvirtualenvを処理できるようにする
-NeoBundleLazy "jmcantrell/vim-virtualenv", {
-      \ "autoload": {
-      \   "filetypes": ["python", "python3", "djangohtml"]
-      \ }}
+call dein#add("jmcantrell/vim-virtualenv", {'lazy':1,'on_ft':["python", "python3", "djangohtml"]})
 
 " Jedi
-NeoBundleLazy "davidhalter/jedi-vim", {
-      \ "autoload": {
-      \   "filetypes": ["python", "python3", "djangohtml"],
-      \ },
-      \ "build": {
-      \   "mac": "pip install jedi",
-      \   "unix": "pip install jedi",
-      \ }}
-let s:hooks = neobundle#get_hooks("jedi-vim")
-function! s:hooks.on_source(bundle)
+call dein#add("davidhalter/jedi-vim", {'lazy':1,'on_ft':["python", "python3", "djangohtml"],'build':1})
+  if dein#is_sourced("davidhalter/jedi-vim")
+" let s:hooks = neobundle#get_hooks("jedi-vim")
+" function! s:hooks.on_source(bundle)
     " autocmd FileType python setlocal omnifunc=jedi#completions
     " jediにvimの設定を任せると'completeopt+=preview'するので
     " 自動設定機能をOFFにし手動で設定を行う
@@ -553,15 +666,8 @@ function! s:hooks.on_source(bundle)
             let g:neocomplete#force_omni_input_patterns = {}
     endif
     let g:neocomplete#force_omni_input_patterns.python = '\%([^. \t]\.\|^\s*@\|^\s*from\s.\+import \|^\s*from \|^\s*import \)\w*'
-endfunction
-
-"--------------------------------------------------------------------------
-" pandoc
-NeoBundleLazy "vim-pandoc/vim-pandoc", {
-      \ "autoload": {
-      \   "filetypes": ["text", "pandoc", "markdown", "rst", "textile"],
-      \ }}
-
+" endfunction
+endif
 
 "--------------------------------------------------------------------------
 " lightline.vim
@@ -667,6 +773,17 @@ function! MyGitGutter()
 endfunction
 
 " https://github.com/Lokaltog/vim-powerline/blob/develop/autoload/Powerline/Functions.vim
+
+let g:powerline_pycmd="python3"
+python3 import sys; sys.path.append("/Users/tsuji/Library/Python/3.4/lib/python/site-packages")
+python3 from powerline.vim import setup as powerline_setup
+python3 powerline_setup()
+python3 del powerline_setup
+
+set laststatus=2 " Always display the statusline in all windows
+set showtabline=2 " Always display the tabline, even if there is only one tab
+set noshowmode " Hide the default mode text (e.g. -- INSERT -- below the statusline)
+
 function! MyCharCode()
   if winwidth('.') <= 70
     return ''

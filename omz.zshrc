@@ -164,4 +164,5 @@ function rprompt-git-current-branch {
 # how to use
 PROMPT='`rprompt-git-current-branch`'
 
-
+powerline-daemon -q
+zsh /Users/tsuji/Library/Python/3.4/lib/python/site-packages/powerline/bindings/zsh/powerline.zsh

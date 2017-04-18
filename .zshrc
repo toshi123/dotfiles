@@ -2,8 +2,12 @@
 case "$OSTYPE" in
 # BSD (contains Mac)
 darwin*)
-        export PATH=/Users/tsuji/bin:/Users/tsuji/local/bin:/usr/local/bin:/usr/local/sbin:$PATH
+        export PATH=/Users/tsuji/bin:$HOME/perl5/perlbrew/bin:/usr/local/bin:/usr/local/sbin:/User/tsuji/Library/Python/3.4/bin/:$PATH
         export MANPATH=/opt/local/share/man:/opt/local/man:$MANPATH
+        source $HOME/perl5/perlbrew/etc/bashrc
+        export PERL_CPANM_OPT="--local-lib=~/extlib"
+        export PERL5LIB="$HOME/extlib/lib/perl5:$HOME/extlib/lib/perl5/i386-freebsd-64int:$PERL5LIB"
+        export DATAPATH=/Users/tsuji/Data/RNAstructure/data_tables/
 
         alias ls='ls -GwF'
         alias ll='ls -GwFlat'
@@ -11,6 +15,7 @@ darwin*)
         source ~/.zsh.local
         ;;
 linux*)
+
         export AMBERHOME=$HOME/local/amber12
         PATH=$AMBERHOME/bin:$HOME/local/amber12_mpi/bin:$PATH
         export SVN_EDITOR=/usr/bin/vim
@@ -62,15 +67,8 @@ alias -g G='| grep'
 alias -g H='| head -n 50'
 alias -g T='| tail'
 alias -g W='| wc -l'
-alias -g H30='| head -n 30'
 alias -g P='| peco'
-
-
-if [ -x "`which peco`" ]; then
-  alias lll='ls -laFt | peco'
-  alias tp='top | peco'
-  alias pp='ps aux | peco'
-fi
+alias -g H30='| head -n 30'
 
 # キーバインドの選択
 bindkey -e   # emacs風
@@ -158,7 +156,22 @@ function _delete-char-or-list-expand() {
 zle -N _delete-char-or-list-expand
 bindkey '^D' _delete-char-or-list-expand
 
+# screenでウインドウの名前にコマンドを反映させるための仕掛け
+preexec () {
+    if [ $TERM = "screen" ]; then
+        1="$1 " # deprecated.
+        echo -ne "\ek${${(s: :)1}[0]}\e\\"
+    fi
+  }
 
+PATH=${PATH}:/opt/local/bin
+
+# case "$OSTYPE" in
+# linux*)
+#         eval $(perl -I$HOME/perl5/lib/perl5 -Mlocal::lib)
+#         ;;
+# esac
+#
 [[ -s "$HOME/.pythonbrew/etc/bashrc" ]] && source "$HOME/.pythonbrew/etc/bashrc"
 
 
@@ -197,5 +210,11 @@ fi
 
 alias aqua='source $aquaroot/aqsetupi'  # This needs a SH equivalent !!!
 
-if which pyenv > /dev/null; then eval "$(pyenv init -)"; fi
+# for virtualenvs
+export WORKON_HOME=$HOME/.virtualenvs
+source /usr/local/bin/virtualenvwrapper.sh
 
+test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
+
+powerline-daemon -q
+zsh /Users/tsuji/Library/Python/3.4/lib/python/site-packages/powerline/bindings/zsh/powerline.zsh
